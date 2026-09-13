@@ -1,0 +1,1099 @@
+<title>PromptPro ES</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+/* ─── TOKENS ─── */
+:root {
+  --bg:        #F4F0EC;
+  --bg-card:   #FFFFFF;
+  --bg-subtle: #EBE7E0;
+  --accent:    #6E4FEB;
+  --accent-s:  #5A3DD4;
+  --accent-gl: rgba(110,79,235,.10);
+  --cta:       #E0851E;
+  --cta-h:     #C97218;
+  --tx:        #1A1520;
+  --tx2:       #5A5168;
+  --tx3:       #9B94A9;
+  --bd:        #DED9D2;
+  --pr-bg:     #F8F6FF;
+  --pr-bd:     #CEC3F7;
+  --shadow:    0 1px 3px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:        #100E15;
+    --bg-card:   #1C1828;
+    --bg-subtle: #261F34;
+    --accent:    #9A7EFF;
+    --accent-s:  #B09AFF;
+    --accent-gl: rgba(154,126,255,.12);
+    --cta:       #F0A040;
+    --cta-h:     #E09030;
+    --tx:        #EDE8F8;
+    --tx2:       #A49DBB;
+    --tx3:       #685F7E;
+    --bd:        #2E2640;
+    --pr-bg:     #1C1730;
+    --pr-bd:     #3D3460;
+    --shadow:    0 1px 3px rgba(0,0,0,.3), 0 4px 12px rgba(0,0,0,.2);
+  }
+}
+:root[data-theme="dark"] {
+  --bg:        #100E15;
+  --bg-card:   #1C1828;
+  --bg-subtle: #261F34;
+  --accent:    #9A7EFF;
+  --accent-s:  #B09AFF;
+  --accent-gl: rgba(154,126,255,.12);
+  --cta:       #F0A040;
+  --cta-h:     #E09030;
+  --tx:        #EDE8F8;
+  --tx2:       #A49DBB;
+  --tx3:       #685F7E;
+  --bd:        #2E2640;
+  --pr-bg:     #1C1730;
+  --pr-bd:     #3D3460;
+  --shadow:    0 1px 3px rgba(0,0,0,.3), 0 4px 12px rgba(0,0,0,.2);
+}
+
+/* ─── BASE ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--tx);
+  min-height: 100vh;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+/* ─── SHELL ─── */
+.shell {
+  display: grid;
+  grid-template-columns: 236px 1fr;
+  grid-template-rows: 56px 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ─── TOPBAR ─── */
+.topbar {
+  grid-column: 1 / -1;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--bd);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  gap: 16px;
+  z-index: 10;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.brand-name {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--tx);
+  letter-spacing: -0.03em;
+}
+.brand-suffix {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+.brand-tag {
+  margin-left: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--accent-gl);
+  color: var(--accent);
+  border: 1px solid var(--pr-bd);
+  padding: 2px 7px;
+  border-radius: 20px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.copies-label {
+  font-size: 12.5px;
+  color: var(--tx3);
+}
+.copies-label b { color: var(--accent); font-weight: 600; }
+
+.btn-cta-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 7px;
+  border: none;
+  background: var(--cta);
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .15s, transform .1s;
+}
+.btn-cta-sm:hover { background: var(--cta-h); transform: translateY(-1px); }
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  background: var(--bg-card);
+  border-right: 1px solid var(--bd);
+  overflow-y: auto;
+  padding: 18px 0 24px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bd) transparent;
+}
+
+.nav-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tx3);
+  padding: 0 18px 8px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 18px;
+  border: none;
+  border-left: 3px solid transparent;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 400;
+  color: var(--tx2);
+  transition: background .14s, color .14s, border-color .14s;
+}
+.nav-btn:hover { background: var(--bg-subtle); color: var(--tx); }
+.nav-btn.active {
+  background: var(--accent-gl);
+  color: var(--accent);
+  font-weight: 600;
+  border-left-color: var(--accent);
+}
+.nav-icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+
+.sidebar-bottom {
+  margin-top: 20px;
+  padding: 14px 16px;
+  margin-inline: 10px;
+  border-radius: 10px;
+  background: var(--accent-gl);
+  border: 1px solid var(--pr-bd);
+}
+.sidebar-bottom-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.sidebar-bottom-desc {
+  font-size: 11.5px;
+  color: var(--tx2);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.btn-pack-sm {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 7px 12px;
+  border-radius: 7px;
+  border: none;
+  background: var(--cta);
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .15s;
+}
+.btn-pack-sm:hover { background: var(--cta-h); }
+
+/* ─── MAIN ─── */
+main {
+  overflow-y: auto;
+  padding: 28px 32px 48px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bd) transparent;
+}
+
+.cat-header { margin-bottom: 20px; }
+.cat-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.cat-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--tx);
+  line-height: 1.2;
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.cat-desc { font-size: 13.5px; color: var(--tx2); max-width: 540px; }
+
+/* ─── PROMPT CARDS ─── */
+.prompts-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+
+.pcard {
+  background: var(--bg-card);
+  border: 1px solid var(--bd);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: border-color .18s, box-shadow .18s;
+}
+.pcard:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-gl), var(--shadow); }
+
+.pcard-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+.pcard-use { font-size: 14px; font-weight: 600; color: var(--tx); }
+.pcard-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.pcard-tag {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: var(--bg-subtle);
+  color: var(--tx2);
+}
+.pcard-chevron {
+  font-size: 11px;
+  color: var(--tx3);
+  transition: transform .2s;
+  font-style: normal;
+}
+.pcard.open .pcard-chevron { transform: rotate(180deg); }
+
+.pcard-body {
+  display: none;
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--bd);
+  padding-top: 14px;
+}
+.pcard.open .pcard-body { display: block; }
+
+.prompt-pre {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.75;
+  color: var(--tx2);
+  background: var(--pr-bg);
+  border: 1px solid var(--pr-bd);
+  border-radius: 7px;
+  padding: 14px 16px;
+  white-space: pre-wrap;
+  margin-bottom: 10px;
+  overflow-x: auto;
+}
+
+.var-row { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+.var-chip {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: var(--accent-gl);
+  color: var(--accent);
+  border: 1px solid var(--pr-bd);
+}
+
+.pcard-actions { display: flex; gap: 8px; align-items: center; }
+.btn-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 7px 13px;
+  border-radius: 7px;
+  border: 1px solid var(--bd);
+  background: var(--bg-card);
+  color: var(--tx2);
+  cursor: pointer;
+  transition: all .15s;
+}
+.btn-copy:hover { background: var(--accent-gl); border-color: var(--accent); color: var(--accent); }
+.btn-copy.done { background: var(--accent-gl); border-color: var(--accent); color: var(--accent); }
+
+.hint { font-size: 11.5px; color: var(--tx3); font-style: italic; }
+
+/* ─── UPSELL BLOCK ─── */
+.upsell {
+  border: 1.5px solid var(--accent);
+  border-radius: 12px;
+  padding: 24px;
+  background: var(--accent-gl);
+  position: relative;
+  overflow: hidden;
+}
+.upsell::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: var(--accent-gl);
+  pointer-events: none;
+}
+
+.upsell-eyebrow {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.upsell-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--tx);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  text-wrap: balance;
+  line-height: 1.2;
+}
+.upsell-sub {
+  font-size: 13.5px;
+  color: var(--tx2);
+  margin-bottom: 16px;
+  max-width: 500px;
+}
+
+.upsell-feats {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 24px;
+  margin-bottom: 20px;
+}
+.upsell-feats li {
+  font-size: 13px;
+  color: var(--tx2);
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+}
+.upsell-feats li::before {
+  content: "✓";
+  font-weight: 700;
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.upsell-foot {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.price {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.price-sym { font-size: 17px; font-weight: 600; color: var(--tx2); }
+.price-num {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--tx);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.price-note { font-size: 12px; color: var(--tx3); margin-left: 2px; }
+
+.btn-buy {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 11px 22px;
+  border-radius: 8px;
+  border: none;
+  background: var(--cta);
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .15s, transform .1s;
+}
+.btn-buy:hover { background: var(--cta-h); transform: translateY(-1px); }
+
+/* ─── TOAST ─── */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--tx);
+  color: var(--bg);
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 999;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .2s, transform .2s;
+  pointer-events: none;
+}
+.toast.on { opacity: 1; transform: translateY(0); }
+
+/* ─── MOBILE ─── */
+@media (max-width: 620px) {
+  .shell {
+    grid-template-columns: 1fr;
+    grid-template-rows: 54px auto 1fr;
+    height: auto;
+    overflow: visible;
+  }
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--bd);
+    overflow-x: auto;
+    overflow-y: visible;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    white-space: nowrap;
+  }
+  .nav-label, .sidebar-bottom { display: none; }
+  .nav-btn {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    font-size: 13px;
+  }
+  .nav-btn.active { border-left-color: transparent; border-bottom-color: var(--accent); }
+  main { padding: 20px 16px 40px; overflow: visible; }
+  .upsell-feats { grid-template-columns: 1fr; }
+  .topbar-right .copies-label { display: none; }
+}
+</style>
+
+<div class="shell">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-name">Prompt</span><span class="brand-suffix">Pro</span>
+      <span class="brand-tag">ES</span>
+    </div>
+    <div class="topbar-right">
+      <span class="copies-label">Prompts gratuitos: <b id="count">5</b> de 5</span>
+      <a href="https://mavid.gumroad.com/l/prompts-ia-espanol" target="_blank" class="btn-cta-sm">
+        Ver pack completo →
+      </a>
+    </div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="nav-label">Categorías</div>
+    <!-- populated by JS -->
+    <div style="height:16px"></div>
+    <div class="sidebar-bottom">
+      <div class="sidebar-bottom-title">Pack Completo</div>
+      <div class="sidebar-bottom-desc">80+ prompts en 6 categorías · Notion template incluido · Pago único</div>
+      <a href="https://mavid.gumroad.com/l/prompts-ia-espanol" target="_blank" class="btn-pack-sm">Conseguirlo por €19 →</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main id="main"></main>
+
+</div>
+
+<div class="toast" id="toast">✓ Prompt copiado</div>
+
+<script>
+const DATA = [
+  {
+    id: 'marketing', icon: '📣', name: 'Marketing y Ventas',
+    desc: 'Email en frío, copies persuasivos, propuestas comerciales y guiones de venta.',
+    prompts: [
+      {
+        use: 'Email de ventas en frío (B2B)',
+        tag: 'Ventas B2B',
+        vars: ['EMPRESA_OBJETIVO','CARGO_DESTINATARIO','MI_PRODUCTO','PROBLEMA_ESPECÍFICO'],
+        text:
+`Actúa como un experto en ventas B2B con 10 años de experiencia.
+Redacta un email en frío para [EMPRESA_OBJETIVO], dirigido a [CARGO_DESTINATARIO].
+
+El email debe:
+- Tener un asunto que genere curiosidad sin ser clickbait
+- Abrirse con un dato específico sobre la empresa del destinatario
+- Presentar [MI_PRODUCTO] como solución a [PROBLEMA_ESPECÍFICO]
+- Incluir una prueba social breve (cliente, resultado o cifra concreta)
+- Cerrar con una CTA de bajo compromiso (15 min de llamada)
+
+Tono: profesional pero cercano, sin jerga corporativa.
+Longitud máxima: 150 palabras. Incluye el asunto.`
+      },
+      {
+        use: 'Descripción de producto para e-commerce',
+        tag: 'E-commerce',
+        vars: ['NOMBRE_PRODUCTO','PLATAFORMA','DESCRIPCIÓN_BASE','PRECIO','PERFIL_CLIENTE','OBJECIÓN_PRINCIPAL'],
+        text:
+`Eres un copywriter especializado en e-commerce con enfoque en conversión.
+Escribe una descripción para [NOMBRE_PRODUCTO] en [PLATAFORMA].
+
+Datos: descripción base: [DESCRIPCIÓN_BASE] · Precio: [PRECIO] · Cliente: [PERFIL_CLIENTE]
+
+Incluye:
+1. Título optimizado con la keyword principal
+2. Beneficio clave en la primera línea (no característica)
+3. 4 bullets con beneficios medibles y específicos
+4. Párrafo de descripción con narrativa emocional breve
+5. Respuesta a la objeción más común: [OBJECIÓN_PRINCIPAL]
+
+Evita: "increíble", "revolucionario", "único" y adjetivos vacíos.`
+      },
+      {
+        use: 'Guion de llamada de ventas (método SPIN)',
+        tag: 'Ventas',
+        vars: ['PRODUCTO_SERVICIO','SECTOR_CLIENTE','PROBLEMA_PRINCIPAL'],
+        text:
+`Crea un guion de llamada de ventas para [PRODUCTO_SERVICIO] con estructura SPIN.
+
+Sector del cliente: [SECTOR_CLIENTE] · Duración objetivo: 25 minutos
+Problema central que resolvemos: [PROBLEMA_PRINCIPAL]
+
+Estructura:
+- Apertura (60 s): establece agenda y credibilidad
+- Preguntas de Situación (4): entiende el contexto actual
+- Preguntas de Problema (3): hace consciente el dolor
+- Preguntas de Implicación (2): amplía el impacto del problema
+- Transición natural a la presentación de la solución
+- Manejo de objeciones: precio, "lo pensaré", tiempo
+- Cierre con alternativa (no sí/no)
+
+Tono: consultor, no vendedor.`
+      }
+    ]
+  },
+  {
+    id: 'rrhh', icon: '👥', name: 'Recursos Humanos',
+    desc: 'Ofertas de empleo, entrevistas por competencias, feedback difícil y onboarding.',
+    prompts: [
+      {
+        use: 'Oferta de empleo que atrae talento real',
+        tag: 'Selección',
+        vars: ['PUESTO','EMPRESA','RANGO_SALARIAL','MODALIDAD','AÑOS_EXP','HABILIDADES','CULTURA_3_PALABRAS'],
+        text:
+`Eres un especialista en employer branding. Redacta una oferta de empleo para [PUESTO] en [EMPRESA].
+
+Datos: Salario: [RANGO_SALARIAL] · Modalidad: [MODALIDAD] · Exp. requerida: [AÑOS_EXP] años
+Habilidades clave: [HABILIDADES] · Cultura: [CULTURA_3_PALABRAS]
+
+La oferta debe:
+- Abrirse con por qué este rol importa (impacto, no lista de tareas)
+- Describir el día a día real en el puesto (semana tipo)
+- Separar requisitos "imprescindibles" de "valoramos"
+- Poner lo que ofrecemos ANTES de lo que pedimos
+- Usar lenguaje inclusivo y neutro
+
+Evita: "apasionado/a", "ninja", "rockstar", "ambiente dinámico".
+Longitud: 400-500 palabras.`
+      },
+      {
+        use: 'Preguntas de entrevista por competencias (STAR)',
+        tag: 'Entrevistas',
+        vars: ['PUESTO','COMPETENCIA_1','COMPETENCIA_2','COMPETENCIA_3'],
+        text:
+`Soy responsable de selección. Genera un banco de preguntas para el puesto [PUESTO].
+
+Competencias a evaluar: [COMPETENCIA_1], [COMPETENCIA_2], [COMPETENCIA_3]
+
+Para cada competencia, genera:
+- 2 preguntas situacionales (metodología STAR)
+- 1 pregunta hipotética ("¿Qué harías si...?")
+- Indicadores de respuesta positiva a buscar
+- Señales de alerta a identificar
+
+Añade también:
+- 3 preguntas para evaluar ajuste cultural
+- 2 preguntas que el candidato recordará como distintas
+
+Evita preguntas ilegales o discriminatorias.`
+      },
+      {
+        use: 'Conversación de feedback difícil',
+        tag: 'Gestión de personas',
+        vars: ['COMPORTAMIENTO','SITUACIÓN_CONCRETA','IMPACTO_OBSERVADO','CAMBIO_ESPERADO'],
+        text:
+`Actúa como un coach de liderazgo experto en conversaciones difíciles.
+Ayúdame a preparar una conversación de feedback.
+
+Comportamiento a abordar: [COMPORTAMIENTO]
+Situación concreta (cuándo, dónde): [SITUACIÓN_CONCRETA]
+Impacto observado en el equipo/resultados: [IMPACTO_OBSERVADO]
+Cambio que necesito: [CAMBIO_ESPERADO]
+
+Genera:
+1. Apertura no defensiva (2-3 frases para comenzar)
+2. Mensaje central usando el modelo SBI (Situación, Comportamiento, Impacto)
+3. Pregunta abierta para escuchar su perspectiva
+4. Plan de acción concreto con fecha de seguimiento
+5. Cierre que mantenga la relación
+
+Tono: directo y honesto, sin crueldad ni vaguedad.`
+      }
+    ]
+  },
+  {
+    id: 'freelance', icon: '💼', name: 'Freelancers',
+    desc: 'Propuestas, presupuestos, negociación y gestión de clientes difíciles.',
+    prompts: [
+      {
+        use: 'Propuesta comercial ganadora',
+        tag: 'Captación de clientes',
+        vars: ['TIPO_PROYECTO','TIPO_CLIENTE','MI_ESPECIALIDAD','PRECIO','PLAZO','MI_DIFERENCIADOR'],
+        text:
+`Eres un freelance senior con 8+ años cerrando proyectos. Redacta una propuesta para [TIPO_PROYECTO] con [TIPO_CLIENTE].
+
+Mi especialidad: [MI_ESPECIALIDAD] · Precio: [PRECIO] · Plazo: [PLAZO]
+Mi diferenciador: [MI_DIFERENCIADOR]
+
+La propuesta incluye:
+1. Resumen ejecutivo (máx. 100 palabras): demostrar que entiendo su problema
+2. Mi enfoque y metodología (cómo lo haré, no solo qué haré)
+3. Entregables concretos con fechas
+4. Por qué yo, con evidencias (sin arrogancia)
+5. Inversión con desglose claro
+6. Condiciones de pago y garantías
+7. Próximos pasos accionables
+
+Primera persona. Tono consultivo, no comercial.`
+      },
+      {
+        use: 'Responder al cliente que pide descuento',
+        tag: 'Negociación',
+        vars: ['PRECIO_ORIGINAL','DESCUENTO_PEDIDO','TIPO_PROYECTO','CLIENTE_RECURRENTE'],
+        text:
+`Un cliente me pide bajar mi precio. Ayúdame a responder de forma asertiva.
+
+Mi presupuesto: [PRECIO_ORIGINAL] · Descuento que piden: [DESCUENTO_PEDIDO]
+Proyecto: [TIPO_PROYECTO] · ¿Cliente recurrente? [CLIENTE_RECURRENTE]
+
+Genera 3 respuestas alternativas:
+
+Opción A — Mantener precio: justificación del valor sin ceder nada
+Opción B — Descuento condicional: bajo precio solo si reducen alcance o plazo
+Opción C — Facilidad de pago: misma tarifa pero fraccionada
+
+Para cada opción: la estrategia, cuándo usarla y el texto listo para enviar.
+Tono: profesional, cálido, firme.`
+      },
+      {
+        use: 'Reactivar un cliente inactivo',
+        tag: 'Retención',
+        vars: ['TIEMPO_SIN_CONTACTO','PROYECTO_ANTERIOR','RESULTADO_CONSEGUIDO','MOTIVO_RECONTACTO'],
+        text:
+`Quiero recontactar a un cliente con quien trabajé hace [TIEMPO_SIN_CONTACTO].
+
+Proyecto anterior: [PROYECTO_ANTERIOR]
+Resultado conseguido juntos: [RESULTADO_CONSEGUIDO]
+Motivo para recontactar ahora: [MOTIVO_RECONTACTO]
+
+Redacta un email de recontacto que:
+- Mencione el trabajo anterior de forma específica (no genérica)
+- Muestre que he seguido su empresa o sector
+- Ofrezca valor antes de pedir algo
+- Tenga una CTA de bajo riesgo (una pregunta, no una propuesta)
+- No suene a "me acuerdo porque necesito trabajo"
+
+Incluye el asunto. Máximo 120 palabras.`
+      }
+    ]
+  },
+  {
+    id: 'dev', icon: '⚙️', name: 'Desarrollo de Software',
+    desc: 'Documentación, comunicación técnica, estimaciones y deuda técnica.',
+    prompts: [
+      {
+        use: 'Documentar código para otros devs',
+        tag: 'Documentación',
+        vars: ['NOMBRE_COMPONENTE','LENGUAJE','AUDIENCIA','CÓDIGO'],
+        text:
+`Actúa como technical writer senior. Documenta [NOMBRE_COMPONENTE] en [LENGUAJE].
+
+Audiencia: [AUDIENCIA]
+
+CÓDIGO:
+\`\`\`
+[CÓDIGO]
+\`\`\`
+
+La documentación incluye:
+- Descripción en una línea (para el índice)
+- Propósito y cuándo usarlo
+- Parámetros: nombre, tipo, descripción, obligatorio/opcional
+- Valor de retorno con tipo y estructura
+- 3 ejemplos: uso básico, con opciones, caso borde
+- Errores frecuentes y cómo resolverlos
+- Nota de rendimiento si aplica
+
+Formato: Markdown. Tono: claro y directo.`
+      },
+      {
+        use: 'Explicar deuda técnica a no técnicos',
+        tag: 'Comunicación al negocio',
+        vars: ['PROBLEMA_TÉCNICO','TIEMPO_SOLUCIÓN','RIESGO_SI_NO_SE_ARREGLA','IMPACTO_NEGOCIO'],
+        text:
+`Soy desarrollador. Necesito conseguir tiempo de refactorización hablando con stakeholders sin perfil técnico.
+
+El problema técnico: [PROBLEMA_TÉCNICO]
+Tiempo estimado de solución: [TIEMPO_SOLUCIÓN]
+Riesgo técnico si no se arregla: [RIESGO_SI_NO_SE_ARREGLA]
+Impacto en el negocio: [IMPACTO_NEGOCIO]
+
+Genera:
+1. Explicación sin jerga técnica (máx. 3 párrafos)
+2. Analogía del mundo real que ilustre el problema
+3. Tabla comparativa: coste de arreglarlo ahora vs. en 6 meses
+4. Recomendación concreta con próximo paso
+5. Respuesta preparada para las 2 objeciones más probables
+
+Tono: consultivo y calmado, no alarmista.`
+      },
+      {
+        use: 'Plan de sprint y estimaciones realistas',
+        tag: 'Planificación',
+        vars: ['TAMAÑO_EQUIPO','VELOCIDAD_SP','DURACIÓN_SPRINT','OBJETIVO_SPRINT','LISTA_TAREAS'],
+        text:
+`Actúa como Scrum Master / Engineering Lead. Ayúdame a planificar el sprint.
+
+Equipo: [TAMAÑO_EQUIPO] devs · Velocidad histórica: [VELOCIDAD_SP] SP/sprint
+Duración: [DURACIÓN_SPRINT] · Objetivo: [OBJETIVO_SPRINT]
+
+Tareas a estimar:
+[LISTA_TAREAS]
+
+Para cada tarea:
+- Story points con justificación breve
+- Subtareas técnicas si aplica
+- Dependencias identificadas
+- Criterios de aceptación sugeridos
+
+Al final: total SP, qué entra en el sprint vs. queda en backlog,
+y los 2-3 riesgos a comunicar al negocio esta semana.`
+      }
+    ]
+  },
+  {
+    id: 'comunicacion', icon: '✍️', name: 'Comunicación Empresarial',
+    desc: 'Emails difíciles, informes ejecutivos, reuniones y presentaciones de impacto.',
+    prompts: [
+      {
+        use: 'Comunicar malas noticias por email',
+        tag: 'Gestión de crisis',
+        vars: ['MI_CARGO','AUDIENCIA','LA_NOTICIA','ACCIONES_YA_TOMADAS','PRÓXIMOS_PASOS'],
+        text:
+`Soy [MI_CARGO] y debo comunicar una noticia negativa a [AUDIENCIA].
+
+La noticia: [LA_NOTICIA]
+Lo que ya hemos hecho: [ACCIONES_YA_TOMADAS]
+Próximos pasos con fechas: [PRÓXIMOS_PASOS]
+
+Redacta la comunicación con esta estructura:
+1. La noticia en las primeras dos frases (sin preámbulos)
+2. Contexto: cómo llegamos aquí, sin excusas
+3. Impacto concreto para el receptor
+4. Acciones ya tomadas y por qué
+5. Próximos pasos con fechas específicas
+6. Cierre que mantenga la confianza
+
+Principios: transparencia > imagen · hechos > opiniones · soluciones > culpables.
+Longitud: 200-300 palabras.`
+      },
+      {
+        use: 'Resumen ejecutivo de informe',
+        tag: 'Informes',
+        vars: ['AUDIENCIA','CONTENIDO_DEL_INFORME'],
+        text:
+`Convierte el siguiente contenido en un resumen ejecutivo de una página para [AUDIENCIA].
+
+CONTENIDO:
+[CONTENIDO_DEL_INFORME]
+
+El resumen debe:
+- Empezar con la conclusión principal (no el contexto)
+- Responder: ¿Qué está pasando? ¿Por qué importa? ¿Qué hacemos?
+- Incluir las 3 métricas más relevantes con contexto breve
+- Presentar 2-3 opciones de decisión con pros/contras en una línea cada uno
+- Terminar con la recomendación concreta y el próximo paso accionable
+
+Formato: párrafos cortos + bullets donde los datos lo justifiquen.
+Longitud: 250-350 palabras. Sin jerga técnica.`
+      },
+      {
+        use: 'Agenda de reunión que produce resultados',
+        tag: 'Productividad',
+        vars: ['OBJETIVO_REUNIÓN','DURACIÓN_MIN','PARTICIPANTES_Y_ROLES','DECISIONES_NECESARIAS'],
+        text:
+`Diseña una agenda de reunión efectiva.
+
+Objetivo: [OBJETIVO_REUNIÓN]
+Duración: [DURACIÓN_MIN] minutos
+Participantes: [PARTICIPANTES_Y_ROLES]
+Decisiones que deben salir sí o sí: [DECISIONES_NECESARIAS]
+
+La agenda incluye:
+1. Timing por punto (con 10% de buffer total)
+2. Tipo de cada punto: decisión / información / debate / brainstorm
+3. Responsable de facilitar cada punto
+4. Materiales que cada persona debe leer antes
+
+Además, redacta el email de convocatoria:
+- Asunto que indica el objetivo, no el tema
+- Por qué cada asistente es necesario (sin ellos no hay decisión)
+- Qué deben preparar antes y en cuánto tiempo`
+      }
+    ]
+  },
+  {
+    id: 'estrategia', icon: '📊', name: 'Análisis y Estrategia',
+    desc: 'Análisis competitivo, toma de decisiones, propuestas de negocio y planificación.',
+    prompts: [
+      {
+        use: 'Análisis de competidores accionable',
+        tag: 'Estrategia',
+        vars: ['MI_EMPRESA','MI_DESCRIPCIÓN','MERCADO_OBJETIVO','LISTA_COMPETIDORES','EJE_X','EJE_Y'],
+        text:
+`Actúa como analista estratégico senior. Analiza [MI_EMPRESA] vs. sus competidores.
+
+Mi empresa: [MI_DESCRIPCIÓN] · Mercado: [MERCADO_OBJETIVO]
+Competidores a analizar: [LISTA_COMPETIDORES]
+
+Para cada competidor:
+- Propuesta de valor y posicionamiento observado
+- Segmento de cliente que prioriza
+- Modelo de precio y distribución
+- Fortalezas y debilidades evidentes
+- Movimiento estratégico reciente si lo hay
+
+Síntesis:
+1. Matriz de posicionamiento 2×2 (ejes: [EJE_X] vs. [EJE_Y])
+2. 3 oportunidades de diferenciación sin explotar
+3. 2 amenazas a vigilar en los próximos 6 meses
+4. Recomendación de posicionamiento con justificación`
+      },
+      {
+        use: 'Framework para tomar decisiones difíciles',
+        tag: 'Toma de decisiones',
+        vars: ['LA_DECISIÓN','CONTEXTO_RELEVANTE','OPCIÓN_A','OPCIÓN_B','OPCIÓN_C','CRITERIOS_IMPORTANTES'],
+        text:
+`Necesito tomar una decisión importante y quiero analizarla de forma estructurada.
+
+La decisión: [LA_DECISIÓN]
+Contexto: [CONTEXTO_RELEVANTE]
+Opciones: [OPCIÓN_A] / [OPCIÓN_B] / [OPCIÓN_C]
+Criterios que más importan: [CRITERIOS_IMPORTANTES]
+
+Aplica este análisis:
+1. ¿Estoy resolviendo el problema correcto? (reformulación si procede)
+2. Tabla de decisión: cada opción puntuada en cada criterio (1-5)
+3. Consecuencias de segundo orden a 6 meses y 2 años
+4. Pre-mortem: ¿qué haría que cada opción fracasara?
+5. Sesgos cognitivos que podrían distorsionar esta decisión
+6. Recomendación con nivel de confianza y supuestos clave
+
+Sé directo. No busco que me confirmes lo que ya pienso.`
+      },
+      {
+        use: 'Business case para una idea nueva',
+        tag: 'Innovación',
+        vars: ['IDEA','PROBLEMA_QUE_RESUELVE','CLIENTE_OBJETIVO','SOLUCIÓN_HIPÓTESIS','COMPETENCIA_ACTUAL','RECURSOS_DISPONIBLES'],
+        text:
+`Ayúdame a estructurar el business case para [IDEA].
+
+Problema: [PROBLEMA_QUE_RESUELVE]
+Cliente objetivo: [CLIENTE_OBJETIVO]
+Hipótesis de solución: [SOLUCIÓN_HIPÓTESIS]
+Competencia actual: [COMPETENCIA_ACTUAL]
+Recursos para validar: [RECURSOS_DISPONIBLES]
+
+Genera un Business Case de 1 página:
+1. Oportunidad: tamaño de mercado y por qué ahora
+2. Propuesta de valor en una frase (3 versiones, elige la mejor)
+3. Modelo de negocio: cómo gana dinero y quién paga
+4. Los 5 supuestos clave a validar antes de invertir más
+5. Experimento mínimo para validar el supuesto más crítico en 4 semanas
+6. Métricas de éxito para la validación (con umbrales go/no-go)
+
+Al final: las 3 preguntas más incómodas que debería responderme antes de avanzar.`
+      }
+    ]
+  }
+];
+
+let activeCat = 'marketing';
+let openCard  = null;
+let freeLeft  = 5;
+
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function renderSidebar() {
+  const sb = document.getElementById('sidebar');
+  const btns = DATA.map(c =>
+    `<button class="nav-btn ${c.id===activeCat?'active':''}" onclick="setcat('${c.id}')">
+      <span class="nav-icon">${c.icon}</span><span>${c.name}</span>
+    </button>`
+  ).join('');
+  sb.innerHTML = `
+    <div class="nav-label">Categorías</div>
+    ${btns}
+    <div style="height:16px"></div>
+    <div class="sidebar-bottom">
+      <div class="sidebar-bottom-title">🎁 Pack Completo</div>
+      <div class="sidebar-bottom-desc">80+ prompts · Notion template · Actualizaciones incluidas · Pago único</div>
+      <a href="https://mavid.gumroad.com/l/prompts-ia-espanol" target="_blank" class="btn-pack-sm">Conseguirlo por €19 →</a>
+    </div>
+  `;
+}
+
+function renderMain() {
+  const cat = DATA.find(c=>c.id===activeCat);
+  const cards = cat.prompts.map((p,i) => {
+    const isOpen = openCard===i;
+    return `
+      <div class="pcard ${isOpen?'open':''}" id="pc${i}">
+        <div class="pcard-head" onclick="toggle(${i})">
+          <span class="pcard-use">${p.use}</span>
+          <span class="pcard-right">
+            <span class="pcard-tag">${p.tag}</span>
+            <i class="pcard-chevron">▾</i>
+          </span>
+        </div>
+        ${isOpen ? `
+        <div class="pcard-body">
+          <div class="prompt-pre">${esc(p.text)}</div>
+          <div class="var-row">${p.vars.map(v=>`<span class="var-chip">[${v}]</span>`).join('')}</div>
+          <div class="pcard-actions">
+            <button class="btn-copy" id="copy${i}" onclick="copyp(${i},this)">📋 Copiar prompt</button>
+            <span class="hint">Reemplaza las variables entre [corchetes]</span>
+          </div>
+        </div>` : ''}
+      </div>`;
+  }).join('');
+
+  document.getElementById('main').innerHTML = `
+    <div class="cat-header">
+      <div class="cat-eyebrow">${cat.icon} ${cat.name}</div>
+      <h1 class="cat-title">Prompts listos para usar, sin empezar desde cero</h1>
+      <p class="cat-desc">${cat.desc} Haz clic en un prompt para ver el texto completo.</p>
+    </div>
+    <div class="prompts-list">${cards}</div>
+    <div class="upsell">
+      <div class="upsell-eyebrow">🎁 Pack Completo — Acceso de por vida</div>
+      <h2 class="upsell-title">80+ prompts profesionales en 6 categorías</h2>
+      <p class="upsell-sub">Estás viendo 3 de los 18 prompts gratuitos. El pack completo cubre todas las situaciones profesionales más habituales, con variables predefinidas y una guía de uso paso a paso.</p>
+      <ul class="upsell-feats">
+        <li>80+ prompts organizados en 6 categorías</li>
+        <li>Plantilla Notion para personalizar y organizar</li>
+        <li>Guía de uso: cómo sacar el máximo a cada prompt</li>
+        <li>Actualizaciones gratuitas de por vida</li>
+        <li>Bonus: 15 prompts de gestión del tiempo</li>
+        <li>Acceso inmediato tras la compra</li>
+      </ul>
+      <div class="upsell-foot">
+        <div class="price">
+          <span class="price-sym">€</span>
+          <span class="price-num">19</span>
+          <span class="price-note">pago único</span>
+        </div>
+        <a href="https://mavid.gumroad.com/l/prompts-ia-espanol" target="_blank" class="btn-buy">Conseguir el pack completo →</a>
+      </div>
+    </div>
+  `;
+}
+
+function setcat(id) {
+  activeCat = id;
+  openCard  = null;
+  renderSidebar();
+  renderMain();
+}
+
+function toggle(i) {
+  openCard = openCard===i ? null : i;
+  renderMain();
+}
+
+function copyp(i, btn) {
+  const cat = DATA.find(c=>c.id===activeCat);
+  navigator.clipboard.writeText(cat.prompts[i].text).then(()=>{
+    toast('✓ Prompt copiado al portapapeles');
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('done');
+    setTimeout(()=>{ btn.textContent='📋 Copiar prompt'; btn.classList.remove('done'); }, 2000);
+    if (freeLeft > 0) {
+      freeLeft--;
+      document.getElementById('count').textContent = freeLeft;
+    }
+  });
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'), 2200);
+}
+
+renderSidebar();
+renderMain();
+</script>
